@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AgriPrice Portal</title>
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #121212;
+  color: #eee;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ==========================
+   HEADER + HERO SVG
+   ========================== */
+header {
+  background: linear-gradient(135deg, #2e7d32, #66bb6a);
+  color: #fff;
+  padding: 60px 20px 200px;
+  text-align: center;
+  position: relative;
+}
+
+header h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 5;
+}
+
+header p {
+  margin-bottom: 40px;
+  font-size: 1.2em;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+}
+
+/* ==========================
+   MODULES GRID
+   ========================== */
+main {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 35px;
+  margin-top: 50px;
+}
+
+.module {
+  position: relative;
+  background: rgba(30, 30, 30, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 50px 40px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transition: transform 0.4s, box-shadow 0.4s, background 0.4s;
+  text-decoration: none;
+  color: #fff;
+}
+
+.module::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, rgba(0, 200, 255, 0.15), rgba(255, 0, 150, 0.15));
+  transform: rotate(25deg);
+  transition: opacity 0.4s;
+  z-index: 0;
+}
+
+.module:hover::before {
+  opacity: 0.3;
+}
+
+.module:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 30, 30, 0.85);
+}
+
+.module svg {
+  position: relative;
+  z-index: 1;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 25px;
+}
+
+.module h2 {
+  position: relative;
+  z-index: 1;
+  font-size: 1.9em;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.module p {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1em;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+/* ==========================
+   TRACTOR & WINDMILL ANIM
+   ========================== */
+#tractor {
+  animation: moveTractor 10s linear infinite;
+}
+
+@keyframes moveTractor {
+  0% { transform: translateX(1400px); }
+  100% { transform: translateX(-200px); }
+}
+
+#blades {
+  transform-origin: 500px 120px;
+  animation: rotateBlades 3s linear infinite;
+}
+
+@keyframes rotateBlades {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
+footer {
+  background: rgba(20, 20, 20, 0.9);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  color: #ddd;
+  padding: 50px 20px 30px;
+  text-align: center;
+  position: relative;
+}
+
+footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer h3 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+footer p {
+  font-size: 1em;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  color: #aaa;
+}
+
+footer .socials {
+  margin: 25px 0;
+}
+
+footer .socials a {
+  display: inline-block;
+  margin: 0 10px;
+  color: #00d4ff;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+footer .socials a:hover {
+  background: #00d4ff;
+  color: #000;
+}
+
+footer .copyright {
+  font-size: 0.9em;
+  color: #666;
+}
+
+footer::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  background: linear-gradient(90deg, #00d4ff, #ff00cc);
+  border-radius: 5px;
+}
+
+footer p a {
+  color: #66bb6a;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+footer p a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================
+   MODALS: Base, About, Dev, Feedback, Report
+   ========================== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  overflow: auto;
+}
+
+.modal-content {
+  background: #373737;
+  margin: 5% auto;
+  padding: 40px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  position: relative;
+  animation: fadeIn 0.4s ease;
+  color: #eee;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #66bb6a;
+}
+
+.modal-content p {
+  margin: 10px 0;
+  text-align: justify;
+}
+
+.modal-content ul {
+  list-style: none;
+  padding-left: 0;
+  text-align: left;
+}
+
+.modal-content ul li {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.modal-content .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.modal-content a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.modal-content a:hover {
+  text-decoration: none;
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.close:hover { color: #f44336; }
+
+.download-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: #66bb6a;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.download-btn:hover { background: #4caf50; }
+
+.modal-content input[type="email"],
+.modal-content textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.modal-content input[type="email"]:focus,
+.modal-content textarea:focus {
+  border-color: #66bb6a;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(102,187,106,0.2);
+}
+
+.modal-content button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #66bb6a;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-content button:hover { background: #4caf50; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================
+   RESPONSIVE BREAKPOINTS
+   ========================== */
+@media (max-width: 1200px) {
+  header { padding: 50px 20px 150px; }
+  header h1 { font-size: 2.5em; }
+}
+
+@media (max-width: 992px) {
+  header { padding: 40px 15px 120px; }
+  header h1 { font-size: 2.2em; }
+  .module { padding: 45px 35px; }
+}
+
+@media (max-width: 768px) {
+  .modules { grid-template-columns: 1fr; gap: 30px; }
+  .module { padding: 55px 40px; }
+  footer h3 { font-size: 1.5em; }
+  footer p { font-size: 0.95em; }
+}
+
+@media (max-width: 480px) {
+  .module { padding: 60px 35px; }
+  .module svg { width: 80px; height: 80px; }
+  .module h2 { font-size: 1.5em; }
+}
+
+/* FAQ */
+
+
+/* ✅ Search input style inside FAQ modal */
+#faqSearchInput {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#faqSearchInput:focus {
+  border-color: #007BFF; /* Primary highlight color */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+  .logo-container {
+      position:absolute; /* Sticks to viewport */
+      top: 10px;
+      left: 10px;
+      z-index: 1000; /* Stay on top */
+    }
+
+    .logo-container img {
+      height: 100px; /* Large logo */
+      width: auto;
+    }
+
+
+
+</style>
+</head>
+<body class="dark">
+  <header>
+        <div class="logo-container">
+      <img src="/static/img/logo.png" alt="AgriPrice Logo">
+    </div>
+    <h1 id="title">AgriPrice Portal</h1>
+    <p id="subtitle">Get Real-Time Agricultural Product Prices</p>
+
+    <!-- Scene with road, tractor, pond, windmill, trees, street lights -->
+    <svg class="hero-svg" viewBox="0 0 1400 400" preserveAspectRatio="xMidYMax meet">
+      <!-- Sun -->
+      <image href="/static/img/sun.png" x="1200" y="0" width="150" height="200" />
+      <!-- Grass Field -->
+      <rect y="300" width="1400" height="200" fill="#66BB6A"/>
+      <!-- Road -->
+      <rect y="320" width="1400" height="50" fill="#555"/>
+      <line x1="0" y1="345" x2="1400" y2="345" stroke="#fff" stroke-dasharray="20,20" stroke-width="2"/>
+      <!-- Pond -->
+      <image href="/static/img/pond.png" x="520" y="140" width="350" height="150" />
+      <!-- Trees -->
+      <image href="/static/img/tree1.png" x="30" y="120" width="150" height="240" />
+      <image href="/static/img/tree2.png" x="1050" y="120" width="180" height="200" />
+      <!-- Windmill -->
+      <g>
+        <rect x="495" y="120" width="10" height="180" fill="#757575"/>
+        <circle cx="500" cy="120" r="6" fill="#212121"/>
+        <g id="blades">
+          <path d="M500 120 Q510 90 550 110 Q520 125 500 120 Z" fill="url(#bladeGrad)" />
+          <path d="M500 120 Q510 90 550 110 Q520 125 500 120 Z" fill="url(#bladeGrad)" transform="rotate(120 500 120)"/>
+          <path d="M500 120 Q510 90 550 110 Q520 125 500 120 Z" fill="url(#bladeGrad)" transform="rotate(240 500 120)"/>
+        </g>
+        <defs>
+          <linearGradient id="bladeGrad" x1="500" y1="120" x2="550" y2="110" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#999"/>
+            <stop offset="100%" stop-color="#666"/>
+          </linearGradient>
+        </defs>
+      </g>
+
+     <!-- Realistic Double Street Light 1 -->
+<g transform="translate(70, -10)">
+  <!-- Pole -->
+  <rect x="200" y="180" width="12" height="140" fill="#333" />
+
+  <!-- Base -->
+  <ellipse cx="206" cy="320" rx="12" ry="6" fill="#333" />
+
+  <!-- Top decorative curve -->
+  <path d="M 206 180 Q 206 160 186 150" stroke="#333" stroke-width="4" fill="none"/>
+  <path d="M 206 180 Q 206 160 226 150" stroke="#333" stroke-width="4" fill="none"/>
+
+  <!-- Left lamp arm -->
+  <path d="M 186 150 Q 170 140 170 130" stroke="#333" stroke-width="3" fill="none"/>
+  <!-- Right lamp arm -->
+  <path d="M 226 150 Q 242 140 242 130" stroke="#333" stroke-width="3" fill="none"/>
+
+  <!-- Left lamp -->
+  <polygon points="160,130 180,130 175,160 165,160" fill="#FFD700" stroke="#333" stroke-width="2"/>
+  <polygon points="160,130 180,130 170,125" fill="#333"/>
+  <!-- Right lamp -->
+  <polygon points="232,130 252,130 247,160 237,160" fill="#FFD700" stroke="#333" stroke-width="2"/>
+  <polygon points="232,130 252,130 242,125" fill="#333"/>
+
+  <!-- Light glows -->
+  <ellipse cx="170" cy="160" rx="20" ry="10" fill="url(#lightGlow)" opacity="0.3"/>
+  <ellipse cx="242" cy="160" rx="20" ry="10" fill="url(#lightGlow)" opacity="0.3"/>
+
+  <!-- Shadow on ground -->
+  <ellipse cx="206" cy="325" rx="20" ry="5" fill="rgba(0,0,0,0.3)"/>
+</g>
+
+
+
+
+<!-- Street Light 2 -->
+<g transform="translate(750, -10)">
+  <rect x="200" y="180" width="12" height="140" fill="#333" />
+  <ellipse cx="206" cy="320" rx="12" ry="6" fill="#333" />
+  <path d="M 206 180 Q 206 160 186 150" stroke="#333" stroke-width="4" fill="none"/>
+  <path d="M 206 180 Q 206 160 226 150" stroke="#333" stroke-width="4" fill="none"/>
+  <path d="M 186 150 Q 170 140 170 130" stroke="#333" stroke-width="3" fill="none"/>
+  <path d="M 226 150 Q 242 140 242 130" stroke="#333" stroke-width="3" fill="none"/>
+  <polygon points="160,130 180,130 175,160 165,160" fill="#FFD700" stroke="#333" stroke-width="2"/>
+  <polygon points="160,130 180,130 170,125" fill="#333"/>
+  <polygon points="232,130 252,130 247,160 237,160" fill="#FFD700" stroke="#333" stroke-width="2"/>
+  <polygon points="232,130 252,130 242,125" fill="#333"/>
+  <ellipse cx="170" cy="160" rx="20" ry="10" fill="url(#lightGlow)" opacity="0.3"/>
+  <ellipse cx="242" cy="160" rx="20" ry="10" fill="url(#lightGlow)" opacity="0.3"/>
+  <ellipse cx="206" cy="325" rx="20" ry="5" fill="rgba(0,0,0,0.3)"/>
+</g>
+
+
+      <!-- Tractor -->
+      <g id="tractor">
+        <rect x="0" y="305" width="80" height="30" fill="#F44336" rx="5" ry="5"/>
+        <rect x="50" y="285" width="25" height="20" fill="#1976D2" rx="3" ry="3"/>
+        <rect x="70" y="275" width="5" height="10" fill="#555"/>
+        <circle cx="20" cy="340" r="12" fill="#212121"/>
+        <circle cx="65" cy="340" r="18" fill="#212121"/>
+        <circle cx="20" cy="340" r="5" fill="#757575"/>
+        <circle cx="65" cy="340" r="7" fill="#757575"/>
+        <circle cx="0" cy="320" r="3" fill="#FFF"/>
+
+<!-- Tractor headlight -->
+<circle cx="0" cy="320" r="4" fill="#FFFF99">
+  <animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/>
+</circle>
+
+<!-- Headlight cone beam / shadow (pointing LEFT) -->
+<polygon points="0,320 -40,310 -40,330" fill="yellow" opacity="0.1">
+  <animate attributeName="opacity" values="0.3;0.05;0.3" dur="2s" repeatCount="indefinite"/>
+</polygon>
+
+
+
+
+      </g>
+    </svg>
+  </header>
+
+  <main>
+    <div class="modules">
+      <a href="/viewer" class="module">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="30" fill="#4CAF50"/>
+          <path d="M32 20a12 12 0 1 1 0 24 12 12 0 0 1 0-24z" fill="#fff"/>
+        </svg>
+        <h2 id="viewerTitle">Viewers</h2>
+        <p id="viewerDesc">Check daily prices, trends, and market updates for all major agricultural products.</p>
+      </a>
+<a href="/news_list" class="module">
+  <svg viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="30" fill="#2196F3"/>
+    <rect x="16" y="20" width="32" height="4" fill="#fff"/>
+    <rect x="16" y="28" width="32" height="4" fill="#fff"/>
+    <rect x="16" y="36" width="20" height="4" fill="#fff"/>
+  </svg>
+  <h2 id="newsTitle">News</h2>
+  <p id="newsDesc">View latest announcements, platform updates, and important communications.</p>
+</a>  
+
+      <a href="/seller_login" class="module">
+        <svg viewBox="0 0 64 64">
+          <rect x="10" y="20" width="44" height="24" fill="#4CAF50"/>
+          <circle cx="20" cy="48" r="4" fill="#4CAF50"/>
+          <circle cx="44" cy="48" r="4" fill="#4CAF50"/>
+        </svg>
+        <h2 id="sellerTitle">Sellers</h2>
+        <p id="sellerDesc">Register your products, update prices, and manage your listings seamlessly.</p>
+      </a>
+
+  </div>
+<div class="modules">
+        <a href="/admin" class="module">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="30" fill="#4CAF50"/>
+          <rect x="24" y="24" width="16" height="16" fill="#fff"/>
+          <rect x="30" y="18" width="4" height="28" fill="#fff"/>
+          <rect x="18" y="30" width="28" height="4" fill="#fff"/>
+        </svg>
+        <h2 id="adminTitle">Admin</h2>
+        <p id="adminDesc">Manage users, moderate content, and maintain the platform's integrity and data.</p>
+      </a>
+</div>
+
+
+
+  </main>
+
+
+
+
+
+
+<!-- ✅ Footer link stays the same -->
+<footer>
+  <p>&copy; 2025 AgriPrice Portal. All rights reserved.</p>
+  <p>
+    <a href="#" id="aboutLink">About</a> | 
+    <a href="#" id="developerLink">Developer</a> | 
+    <a href="#" id="openFAQ">FAQ</a> |
+    <a href="#" id="feedbackLink">Feedback</a> | 
+    <a href="#" id="reportLink">Report</a>
+  </p>
+</footer>
+
+<!-- ✅ FAQ Modal with just input -->
+<div id="faqModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeFAQ">&times;</span>
+    <h2>Frequently Asked Questions (FAQ)</h2>
+
+    <!-- Just the search input, no button -->
+    <input type="text" id="faqSearchInput" placeholder="Search FAQ...">
+
+    <!-- Matching results will show here -->
+    <div id="faqContent" style="margin-top: 20px;"></div>
+  </div>
+</div>
+
+
+
+
+<!-- ✅ Feedback Modal -->
+<div id="feedbackModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeFeedback">&times;</span>
+    <h2>Send Feedback</h2>
+    <form id="feedbackForm">
+      <label for="feedbackEmail">Your Email:</label><br>
+      <input type="email" id="feedbackEmail" name="feedbackEmail" required><br><br>
+      <label for="feedbackMessage">Message:</label><br>
+      <textarea id="feedbackMessage" name="feedbackMessage" rows="5" required></textarea><br><br>
+      <button type="submit">Send Feedback</button>
+    </form>
+  </div>
+</div>
+
+<!-- ✅ Report Modal -->
+<div id="reportModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeReport">&times;</span>
+    <h2>Report an Issue</h2>
+    <form id="reportForm">
+      <label for="reportEmail">Your Email:</label><br>
+      <input type="email" id="reportEmail" name="reportEmail" required><br><br>
+      <label for="reportMessage">Describe the Issue:</label><br>
+      <textarea id="reportMessage" name="reportMessage" rows="5" required></textarea><br><br>
+      <button type="submit">Send Report</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- ✅ About Modal -->
+<!-- ✅ About Modal with working download button -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeAbout">&times;</span>
+    <h2>About AgriPrice Portal</h2>
+    <p>AgriPrice Portal is an innovative digital platform built to empower farmers, traders, and consumers with real-time agricultural product prices. We aim to bridge the information gap by delivering daily market trends and price updates, ensuring fair trade practices and better decision-making for all stakeholders in the agricultural supply chain.</p>
+    <p>Our mission goes beyond just price tracking — we focus on creating a community where farmers can easily access market insights, register their products, and expand their reach to potential buyers. Sellers and buyers alike benefit from transparent pricing and up-to-date data that help them plan their activities more efficiently.</p>
+    <p>Designed with sustainability and ease-of-use in mind, AgriPrice Portal integrates eco-friendly features and modern web technologies to minimize digital waste and enhance performance. By providing these tools, we hope to support rural development, boost local economies, and promote fair and equitable trade in the agricultural sector.</p>
+
+    <!-- ✅ Actual download link -->
+    <a href="/static/app/AgriPrice Portal.apk" download class="download-btn">📲 Get the App</a>
+  </div>
+</div>
+
+
+
+
+<!-- ✅ Developer Modal with real icons -->
+<div id="developerModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeDeveloper">&times;</span>
+    <h2>About the Developer</h2>
+    <p>Hello! I’m <strong>A S Shridatta Aigal</strong>, a dedicated freelance developer who loves solving real-world problems through clean, user-friendly software. I bring ideas to life with modern web technologies, building everything from dynamic websites to powerful backend systems.</p>
+    <p>My work combines a strong grasp of <strong>HTML</strong> and <strong>CSS</strong> for responsive interfaces, <strong>Python</strong> for backend automation, <strong>Java</strong> for robust application logic, and <strong>SQL</strong> for reliable data management. I focus on delivering solutions that are easy to use, efficient, and ready for real-world challenges.</p>
+    <p>If you’d like to discuss a project or need freelance support for your business idea, feel free to reach out:</p>
+    <ul class="contact-list">
+      <li>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path fill="#66bb6a" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.36 11.36 0 003.55 1.13 1 1 0 01.89 1v3.34a1 1 0 01-1 1A16 16 0 014 5a1 1 0 011-1h3.34a1 1 0 011 0.89 11.36 11.36 0 001.13 3.55 1 1 0 01-.21 1.11l-2.2 2.2z"/>
+        </svg>
+        <strong>Phone:</strong> <a href="tel:+916363352453">+91 63633 52453</a>
+
+      </li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path fill="#66bb6a" d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 18V8l8 5 8-5v10H4z"/>
+        </svg>
+        <strong>Email:</strong> <a href="mailto:shriaigal@gmail.com" target="_blank">shriaigal@gmail.com</a>
+
+      </li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path fill="#66bb6a" d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.49v-1.68c-2.78.61-3.37-1.34-3.37-1.34a2.66 2.66 0 00-1.12-1.48c-.92-.63.07-.61.07-.61a2.1 2.1 0 011.54 1 2.14 2.14 0 002.93.84 2.14 2.14 0 01.63-1.35c-2.22-.26-4.56-1.11-4.56-4.94a3.87 3.87 0 011-2.69 3.58 3.58 0 01.1-2.65s.84-.27 2.75 1a9.52 9.52 0 015 0c1.91-1.3 2.75-1 2.75-1a3.58 3.58 0 01.1 2.65 3.87 3.87 0 011 2.69c0 3.84-2.34 4.68-4.56 4.94a2.39 2.39 0 01.68 1.85v2.75c0 .27.18.59.69.49A10 10 0 0012 2z"/>
+        </svg>
+        <strong>GitHub:</strong> <a href="https://github.com/shriaigal" target="_blank">shri aigal</a>
+      </li>
+      <li>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path fill="#66bb6a" d="M7 2C4.79 2 3 3.79 3 6v12c0 2.21 1.79 4 4 4h10c2.21 0 4-1.79 4-4V6c0-2.21-1.79-4-4-4H7m0 2h10c1.1 0 2 .9 2 2v12a2 2 0 01-2 2H7c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2m5 3a5 5 0 00-5 5 5 5 0 0010 0 5 5 0 00-5-5m0 2a3 3 0 013 3 3 3 0 01-6 0 3 3 0 013-3m6 1a1 1 0 110 2 1 1 0 010-2z"/>
+        </svg>
+        <strong>Instagram:</strong> <a href="https://instagram.com/shriaigal" target="_blank">shri aigal</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+
+<script>
+  // Get modal elements
+  const aboutModal = document.getElementById('aboutModal');
+  const developerModal = document.getElementById('developerModal');
+
+  // Get links
+  const aboutLink = document.getElementById('aboutLink');
+  const developerLink = document.getElementById('developerLink');
+
+  // Get close buttons
+  const closeAbout = document.getElementById('closeAbout');
+  const closeDeveloper = document.getElementById('closeDeveloper');
+
+  // Show modals
+  aboutLink.onclick = function(e) {
+    e.preventDefault();
+    aboutModal.style.display = 'block';
+  }
+  developerLink.onclick = function(e) {
+    e.preventDefault();
+    developerModal.style.display = 'block';
+  }
+
+  // Close modals
+  closeAbout.onclick = function() {
+    aboutModal.style.display = 'none';
+  }
+  closeDeveloper.onclick = function() {
+    developerModal.style.display = 'none';
+  }
+
+  // Close if click outside content
+  window.onclick = function(event) {
+    if (event.target == aboutModal) {
+      aboutModal.style.display = 'none';
+    }
+    if (event.target == developerModal) {
+      developerModal.style.display = 'none';
+    }
+  }
+</script>
+
+
+
+
+<!-- report and feedback -->
+<script>
+  // Open modals
+  document.getElementById('aboutLink').onclick = () => { document.getElementById('aboutModal').style.display = 'block'; };
+  document.getElementById('developerLink').onclick = () => { document.getElementById('developerModal').style.display = 'block'; };
+  document.getElementById('feedbackLink').onclick = () => { document.getElementById('feedbackModal').style.display = 'block'; };
+  document.getElementById('reportLink').onclick = () => { document.getElementById('reportModal').style.display = 'block'; };
+
+  // Close modals
+  document.getElementById('closeAbout').onclick = () => { document.getElementById('aboutModal').style.display = 'none'; };
+  document.getElementById('closeDeveloper').onclick = () => { document.getElementById('developerModal').style.display = 'none'; };
+  document.getElementById('closeFeedback').onclick = () => { document.getElementById('feedbackModal').style.display = 'none'; };
+  document.getElementById('closeReport').onclick = () => { document.getElementById('reportModal').style.display = 'none'; };
+
+  // Close if clicked outside
+  window.onclick = function(event) {
+    ['aboutModal','developerModal','feedbackModal','reportModal'].forEach(id => {
+      const modal = document.getElementById(id);
+      if (event.target == modal) modal.style.display = "none";
+    });
+  };
+
+  // Feedback form submit
+  document.getElementById('feedbackForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('feedbackEmail').value;
+    const message = document.getElementById('feedbackMessage').value;
+
+    const response = await fetch('/send-feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, message })
+    });
+
+    if (response.ok) {
+      alert('Thank you for your feedback!');
+      document.getElementById('feedbackModal').style.display = 'none';
+      this.reset();
+    } else {
+      alert('Failed to send. Please try again.');
+    }
+  };
+
+  // Report form submit
+  document.getElementById('reportForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('reportEmail').value;
+    const message = document.getElementById('reportMessage').value;
+
+    const response = await fetch('/send-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, message })
+    });
+
+    if (response.ok) {
+      alert('Thank you for reporting the issue!');
+      document.getElementById('reportModal').style.display = 'none';
+      this.reset();
+    } else {
+      alert('Failed to send report. Please try again.');
+    }
+  };
+</script>
+
+
+<script>
+  // Open/Close FAQ modal
+  const faqModal = document.getElementById("faqModal");
+  const openFAQ = document.getElementById("openFAQ");
+  const closeFAQ = document.getElementById("closeFAQ");
+
+  openFAQ.onclick = () => faqModal.style.display = "block";
+  closeFAQ.onclick = () => faqModal.style.display = "none";
+  window.onclick = e => { if (e.target == faqModal) faqModal.style.display = "none"; };
+
+  // FAQ data
+ const faqItems = [
+  {
+    q: "What is AgriPrice Portal?",
+    a: "AgriPrice Portal is an online system for farmers, sellers, buyers, and admins to manage, track, and view daily updated agricultural product prices and market trends."
+  },
+  {
+    q: "Who developed this portal?",
+    a: "This portal is developed by Shri Aigal — a developer dedicated to building tools for the agricultural community."
+  },
+  {
+    q: "Where can I find the developer online?",
+    a: "Connect with Shri Aigal on LinkedIn: <a href='https://www.linkedin.com/in/a-s-shridatta-aigal-27b926323/' target='_parent'>https://www.linkedin.com/in/a-s-shridatta-aigal-27b926323/</a> and GitHub: <a href='https://github.com/shriaigal'  target='_parent'  >https://github.com/shriaigal</a>"
+  },
+  {
+    q: "Is there an official mobile app?",
+    a: "Yes! An APK version is available for Android users. It lets you check prices, submit products, and manage listings on the go."
+  },
+  {
+    q: "Where can I download the APK?",
+    a: "You can download the latest APK safely from our official site:<a href='https://agripriceportal.pythonanywhere.com/' target='_blank'>https://agripriceportal.pythonanywhere.com/</a> -> Footer -> About -> Get apps"
+  },
+  {
+    q: "Is the portal free to use?",
+    a: "Yes, the website and APK are free for all farmers, sellers, and buyers."
+  },
+  {
+    q: "Who can register on AgriPrice Portal?",
+    a: "Verified companies and sellers can register by providing company details, a valid GST number, and a profile image."
+  },
+  {
+    q: "How do I register my company?",
+    a: "Click ‘Register’ on the seller page. Fill out your company details, upload your company logo, and set a secure password."
+  },
+  {
+    q: "Do I need a GST number?",
+    a: "Yes, a valid GST number is required for company verification during registration."
+  },
+  {
+    q: "How do I log in as a seller?",
+    a: "Go to the seller login page, enter your company name, email, and password to access your dashboard."
+  },
+  {
+    q: "How do sellers submit product prices?",
+    a: "Once logged in, sellers can submit product details — name, quantity, price, date, and location — from the dashboard."
+  },
+  {
+    q: "Can sellers edit or delete products?",
+    a: "Currently, editing and deleting products is handled by the admin. Contact the admin for updates."
+  },
+  {
+    q: "How do buyers view product prices?",
+    a: "Buyers and viewers can filter product prices by date and location using the viewer page."
+  },
+  {
+    q: "How do I reset my password?",
+    a: "Use the ‘Forgot Password’ page. Enter your company name, company number, and email to set a new password."
+  },
+  {
+    q: "Does AgriPrice Portal send confirmation emails?",
+    a: "Yes, after successful registration, you’ll get a welcome email with important links and next steps."
+  },
+  {
+    q: "How can I give feedback or report an issue?",
+    a: "Use the Feedback and Report forms on the site or app. Your message is saved in the system and emailed to the admin."
+  },
+  {
+    q: "Is there an admin panel?",
+    a: "Yes — admins log in securely, manage registered companies and products, and handle feedback and reports."
+  },
+  {
+    q: "How does the admin manage companies?",
+    a: "Admins can verify, edit, or delete companies and product listings through the admin panel."
+  },
+  {
+    q: "What happens if my company is deleted?",
+    a: "If your company is deleted, all its products are removed from the system to keep the database clean."
+  },
+  {
+    q: "Is my data safe?",
+    a: "Yes — all data is stored securely in a local database and protected by session-based login authentication."
+  },
+  {
+    q: "How often should sellers update prices?",
+    a: "Sellers should update prices daily to provide buyers with accurate, real-time market information."
+  },
+  {
+    q: "How often is product data updated?",
+    a: "Product data is updated by sellers anytime. Buyers always see the latest updates based on selected date and location."
+  },
+  {
+    q: "How do I update the APK?",
+    a: "Visit our official site regularly for the latest APK and reinstall it on your device if needed."
+  },
+  {
+    q: "Will my data be safe when using the APK?",
+    a: "Yes, the same secure database and login system protect your data on both the website and the APK."
+  },
+  {
+    q: "Can I use the portal in Kannada?",
+    a: "Yes, switch to Kannada using the language toggle in the settings if supported."
+  },
+  {
+    q: "Is there a dark mode?",
+    a: "Yes, toggle dark mode for a comfortable viewing experience on both the website and the app."
+  },
+  {
+    q: "Which technologies power this portal?",
+    a: "The portal uses Python Flask, SQLite, HTML, CSS, JavaScript, and Flask-Mail for secure emails."
+  },
+  {
+    q: "Can I suggest new features?",
+    a: "Absolutely! Use the feedback or report tools to share your ideas. We welcome improvements."
+  },
+  {
+    q: "Will there be new features in the future?",
+    a: "Yes! The portal will keep evolving with new tools and updates to help the farming community."
+  },
+  {
+    q: "Can I contribute to this project?",
+    a: "Contact Shri Aigal via LinkedIn or GitHub if you’re interested in collaborating or contributing."
+  },
+  {
+    q: "Where can I follow updates?",
+    a: "Follow Shri Aigal on LinkedIn and GitHub for updates and news about this project."
+  },
+  {
+    q: "How can I contact the developer directly?",
+    a: "Reach out by email:<a href='mailto:aicontentcreator772@gmail.com'>aicontentcreator772@gmail.com</a>  or connect on LinkedIn: <a href='https://www.linkedin.com/in/a-s-shridatta-aigal-27b926323/' target='_blank'>https://www.linkedin.com/in/a-s-shridatta-aigal-27b926323/</a>."
+  },
+  {
+    q: "What is the official website?",
+    a: "The official site is: <a href='https://agripriceportal.pythonanywhere.com/' target='_blank'>https://agripriceportal.pythonanywhere.com/</a>"
+  },
+  {
+    q: "Can I share this portal with others?",
+    a: "Yes! Share the website or APK download link with farmers and sellers to help them too."
+  }
+];
+
+  const faqSearchInput = document.getElementById("faqSearchInput");
+  const faqContent = document.getElementById("faqContent");
+
+  faqSearchInput.addEventListener("input", function() {
+    const keyword = faqSearchInput.value.trim();
+    if (!keyword) {
+      faqContent.innerHTML = "";
+      return;
+    }
+
+    const regex = new RegExp(`(${keyword})`, "gi");
+    let results = "";
+
+    faqItems.forEach(item => {
+      const combined = item.q + " " + item.a;
+      if (combined.toLowerCase().includes(keyword.toLowerCase())) {
+        const highlightedQ = item.q.replace(regex, "<mark>$1</mark>");
+        const highlightedA = item.a.replace(regex, "<mark>$1</mark>");
+        results += `
+          <div class="faq-item">
+            <h4>Q: ${highlightedQ}</h4>
+            <p>A: ${highlightedA}</p>
+          </div>
+        `;
+      }
+    });
+
+    faqContent.innerHTML = results || "<p>No matching FAQ found.</p>";
+  });
+</script>
+
+
+</body>
+</html>

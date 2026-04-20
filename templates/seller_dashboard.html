@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Selector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #007bff;
+      --danger: #dc3545;
+      --gray: #f8f9fa;
+      --border: #dee2e6;
+      --text: #212529;
+    }
+.search-container {
+  position: relative;
+  overflow: visible;
+  z-index: 10;
+}
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--gray);
+      color: var(--text);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 26px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      font-weight: bold;
+    }
+
+    input[type="text"], input[type="number"], input[type="date"], select {
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 0 0 5px 5px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+
+
+
+    .search-results div {
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .search-results div:hover {
+      background-color: #f1f1f1;
+    }
+
+    .center {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button[type="submit"] {
+      padding: 12px 30px;
+      font-size: 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background: #0056b3;
+    }
+
+
+
+
+
+    a {
+
+      width: 30px;
+      padding: 11px 40px;
+      font-size: 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+
+    a:hover {
+      background: #0056b3;
+    }
+
+
+
+table, tbody, tr, td {
+  overflow: visible !important;
+}
+
+    .message {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .success { color: green; }
+    .error { color: red; }
+
+    .menu-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+    }
+
+    .menu-icon {
+      font-size: 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 35px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      min-width: 300px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .profile-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 2px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+.edit-icon {
+  position: absolute;
+      bottom: 0px;
+      right: 95px;
+  transform: translate(25%, 25%);
+  background-color: #ffc107;
+  color: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+    .profile-info {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background: #c82333;
+    }
+@media (min-width: 1024px) {
+  .search-container {
+    position: relative;
+    overflow: visible;
+  }
+
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 5px 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 2000;
+    display: none; /* JS will toggle this */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  td {
+    position: relative;
+    overflow: visible;
+  }
+}
+
+    @media (max-width: 992px) {
+  .dropdown-menu {
+    min-width: 100%;
+    right: 0;
+    left: 0;
+  }
+   .search-results {
+    display: none; /* Initially hidden, shown via JS */
+    position: absolute;
+    z-index: 1100;
+    background: #fff;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
+
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+ table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead tr {
+        display: none;
+      }
+
+      tbody tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: 45%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+      }
+
+  .menu-container {
+    top: 10px;
+    right: 10px;
+    position: fixed; /* Keep it on top even if page scrolls */
+    z-index: 1001;
+  }
+
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+    width: 280px;
+    min-width: unset;
+    max-width: 90vw;
+    box-sizing: border-box;
+  }
+
+  .profile-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .edit-icon {
+    right: 34%;
+bottom: -5%;
+    transform: translateX(50%);
+  }
+
+  .logout-btn {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .menu-icon {
+    font-size: 20px;
+  }
+
+  .dropdown-menu {
+    font-size: 14px;
+  }
+
+  .profile-info p {
+    font-size: 13px;
+    margin: 4px 0;
+  }
+
+  .edit-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  input, select {
+    font-size: 14px;
+  }
+}
+
+
+  </style>
+</head>
+
+<body>
+  <div class="menu-container">
+    <div class="menu-icon">&#8942;</div>
+    <div class="dropdown-menu">
+      <form action="{{ url_for('update_profile_image') }}" method="post" enctype="multipart/form-data">
+        <div class="profile-wrapper">
+          {% if seller.profile_image %}
+           <!-- Temporarily disable image rendering to test speed -->
+<img src="data:image/png;base64,{{ seller.profile_image }}" alt="Profile Image" class="profile-image"> 
+
+
+          {% else %}
+            <img src="{{ url_for('static', filename='default_profile.png') }}" alt="No Profile" class="profile-image" id="previewImage">
+          {% endif %}
+          <label for="profileImageInput" class="edit-icon">&#9998;</label>
+          <input type="file" name="profile_image" id="profileImageInput" accept="image/*" onchange="this.form.submit();" hidden>
+        </div>
+      </form>
+
+      <div class="profile-info">
+        <p><strong>Company Name:</strong> {{ seller.company_name }}</p>
+        <p><strong>Email:</strong> {{ seller.email }}</p>
+        <p><strong>Phone:</strong> {{ seller.phone_no }}</p>
+        <p><strong>GST:</strong> {{ seller.gst_no }}</p>
+        <p><strong>Company No.:</strong> {{ seller.company_no }}</p>
+      </div>
+
+      <form action="{{ url_for('seller_logout') }}" method="get">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>Product Order</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="center">
+        {% for category, message in messages %}
+          <p id="flash-msg" class="message {{ category }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <form action="/submit" method="POST" onsubmit="return validateForm()">
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price (₹)</th>
+          <th>Date</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Product">
+            <div class="search-container">
+              <input type="text" id="productSearch" placeholder="Search Product">
+              <div id="results" class="search-results"></div>
+            </div>
+            <input type="hidden" name="product" id="selectedProduct">
+          </td>
+          <td data-label="Quantity">
+            <select name="quantity" required>
+              <option value="10 gram">10 Gram</option>
+              <option value="50 gram">50 Gram</option>
+              <option value="100 gram">100 Gram</option>
+              <option value="500 gram">500 Gram</option>
+              <option value="1 kg">1 KG</option>
+              <option value="1 quintal">1 Quintal</option>
+              <option value="1 ton">1 Ton</option>
+            </select>
+          </td>
+          <td data-label="Price (₹)">
+            <input type="number" name="price" id="price" placeholder="Enter Price" required>
+          </td>
+          <td data-label="Date">
+            <input type="date" name="date" required>
+          </td>
+          <td data-label="Location">
+            <select name="location" required>
+              <option value="">Select Location</option>
+              <option value="sagara">Sagara</option>
+              <option value="nittur">Nittur</option>
+              <option value="hosanagara">Hosanagara</option>
+              <option value="thirthahalli">Thirthahalli</option>
+              <option value="mandya">Mandya</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="center">
+      <button type="submit">Submit</button>
+      <a href="/iindex">Back</a>
+    </div>
+  </form>
+
+  <script>
+    const products = [
+      "Rice", "Wheat", "Maize", "Barley", "Millet", "Chickpeas", "Moong", "Urad", "Lentils", "Toor",
+      "Potato", "Onion", "Tomato", "Brinjal", "Spinach", "Cauliflower", "Cabbage", "Okra",
+      "Mango", "Banana", "Apple", "Grapes", "Orange", "Papaya", "Guava", "Pomegranate",
+      "Groundnut", "Mustard", "Soybean", "Sunflower", "Cotton", "Sugarcane", "Tea", "Coffee", "Areca Nut",
+      "Pepper", "Cardamom", "Turmeric", "Ginger", "Garlic", "Cloves", "Cinnamon", "Cumin", "Coriander"
+    ];
+
+    function showResults(filter = "") {
+      const resultsDiv = $("#results");
+      const filterText = filter.toLowerCase().trim();
+      const matches = filterText === "" ? products : products.filter(p => p.toLowerCase().includes(filterText));
+      if (matches.length === 0) return resultsDiv.hide();
+      resultsDiv.html("");
+      matches.forEach(item => resultsDiv.append(`<div class="result-item">${item}</div>`));
+      resultsDiv.show();
+    }
+
+    $(document).ready(function () {
+      $("#productSearch").on("input focus", function () {
+        showResults($(this).val());
+      });
+
+      $(document).on("click", ".result-item", function () {
+        $("#productSearch").val($(this).text());
+        $("#selectedProduct").val($(this).text());
+        $("#results").hide();
+      });
+
+      $(document).click(function (e) {
+        if (!$(e.target).closest('.search-container, .menu-container').length) {
+          $("#results").hide();
+          $(".dropdown-menu").hide();
+        }
+      });
+
+      $(".menu-icon").click(function (e) {
+        $(".dropdown-menu").toggle();
+        e.stopPropagation();
+      });
+    });
+
+    function validateForm() {
+      const price = document.getElementById('price').value;
+      const product = document.getElementById('selectedProduct').value;
+
+      if (!product) {
+        alert('Please select a product!');
+        return false;
+      }
+      if (price <= 0) {
+        alert('Price must be positive!');
+        return false;
+      }
+      return true;
+    }
+
+    window.onload = () => {
+      const flash = document.getElementById('flash-msg');
+      if (flash) setTimeout(() => flash.style.display = 'none', 5000);
+    };
+  </script>
+</body>
+</html>

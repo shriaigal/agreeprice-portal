@@ -1,0 +1,14 @@
+[
+  {
+    "question": "How can I reset my password?",
+    "answer": "Click 'Forgot Password' on the login page to reset it."
+  },
+  {
+    "question": "Where can I track my order?",
+    "answer": "Log in and go to your dashboard → Orders → Track Order."
+  },
+  {
+    "question": "How do I contact support?",
+    "answer": "Email support@example.com or use the Contact Us form."
+  }
+]

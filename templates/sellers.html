@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Seller Registrations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #333;
+      color: white;
+    }
+    img {
+      max-width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>Seller Registration Data</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Company Name</th>
+        <th>Company No</th>
+        <th>Email</th>
+        <th>GST No</th>
+        <th>Phone No</th>
+        <th>Profile Image</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for seller in sellers %}
+      <tr>
+        <td>{{ seller.id }}</td>
+        <td>{{ seller.company_name }}</td>
+        <td>{{ seller.company_no }}</td>
+        <td>{{ seller.email }}</td>
+        <td>{{ seller.gst_no }}</td>
+        <td>{{ seller.phone_no }}</td>
+        <td>
+          {% if seller.profile_image %}
+           <img src="data:image/png;base64,{{ seller.profile_image | b64encode }}" alt="Profile Image">
+
+          {% else %}
+            No Image
+          {% endif %}
+        </td>
+        <td>{{ seller.password }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .table thead th {
+      background-color: #343a40;
+      color: #fff;
+      text-align: center;
+      vertical-align: middle;
+      z-index: 1;
+    }
+
+    .table td {
+      vertical-align: middle;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .btn {
+      margin: 2px;
+    }
+
+    td input, td select {
+      width: 100%;
+      padding: 4px;
+      text-align: center;
+    }
+
+    /* Floating autocomplete */
+    #floatingResults {
+      position: absolute;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      max-height: 200px;
+      overflow-y: auto;
+      border-radius: 0 0 4px 4px;
+      display: none;
+    }
+
+    #floatingResults div {
+      padding: 8px 10px;
+      cursor: pointer;
+    }
+
+    #floatingResults div:hover {
+      background-color: #f1f1f1;
+    }
+
+    @media (max-width: 768px) {
+  h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: #fff;
+  }
+
+  td {
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.9rem;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0.7rem;
+    left: 1rem;
+    width: 45%;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    color: #333;
+    font-size: 0.9rem;
+  }
+
+  td input,
+  td select {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    display: inline-block;
+    width: 48%;
+    font-size: 0.85rem;
+    margin: 4px 1%;
+    padding: 6px 8px;
+  }
+
+  .btn-warning,
+  .btn-success,
+  .btn-danger,
+  .btn-secondary {
+    font-size: 0.8rem;
+  }
+
+  #floatingResults {
+    font-size: 0.85rem;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  #floatingResults div {
+    padding: 6px 8px;
+  }
+}
+
+    @media (max-width: 425px) {
+  h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+    
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 0.5rem;
+    background-color: #fff;
+    
+  }
+
+  td {
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.7rem;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0.7rem;
+    left: 1rem;
+    width: 45%;
+    font-weight: 600;
+    text-align: left;
+    white-space: nowrap;
+    color: #333;
+    font-size: 0.9rem;
+    text-align: left;
+
+  }
+
+  td input,
+  td select {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  .btn {
+    display: inline-block;
+    width: 48%;
+    font-size: 0.85rem;
+    margin: 4px 1%;
+    padding: 6px 8px;
+  }
+
+  .btn-warning,
+  .btn-success,
+  .btn-danger,
+  .btn-secondary {
+    font-size: 0.8rem;
+  }
+
+  #floatingResults {
+    font-size: 0.85rem;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  #floatingResults div {
+    padding: 6px 8px;
+  }
+}
+@media (max-width: 425px) {
+  td {
+    position: relative;
+    padding-left: 50%;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 0.9rem;
+  }
+
+  td,
+  td span,
+  td input,
+  td select {
+    text-align: right !important;
+    display: inline-block;
+    width: 100%;
+  }
+
+  td::before {
+    text-align: left;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="mb-4">Manage Products & Items</h1>
+    <div class="table-responsive" style="position: relative;">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Company Name</th>
+            <th>Company No</th>
+            <th>Email</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr data-id="{{ product[0] }}">
+            <td data-label="ID">{{ product[0] }}</td>
+            <td data-label="Company Name">{{ product[5] }}</td>
+            <td data-label="Company No">{{ product[6] }}</td>
+            <td data-label="Email">{{ product[7] }}</td>
+            <td data-label="Product Name" class="editable">{{ product[1] }}</td>
+            <td data-label="Quantity" class="editable">{{ product[2] }}</td>
+            <td data-label="Price" class="editable">{{ product[3] }}</td>
+            <td data-label="Date" class="editable">{{ product[4] }}</td>
+            <td data-label="Actions">
+              <button class="btn btn-sm btn-warning edit-btn">Edit</button>
+              <button class="btn btn-sm btn-success save-btn d-none">Save</button>
+              <a href="{{ url_for('delete_product', id=product[0]) }}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <a href="{{ url_for('admin') }}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+  </div>
+
+  <!-- Floating search results box -->
+  <div id="floatingResults"></div>
+
+  <script>
+    const products = [
+      "Rice", "Wheat", "Maize", "Barley", "Millet", "Chickpeas", "Moong", "Urad", "Lentils", "Toor",
+      "Potato", "Onion", "Tomato", "Brinjal", "Spinach", "Cauliflower", "Cabbage", "Okra",
+      "Mango", "Banana", "Apple", "Grapes", "Orange", "Papaya", "Guava", "Pomegranate",
+      "Groundnut", "Mustard", "Soybean", "Sunflower", "Cotton", "Sugarcane", "Tea", "Coffee", "Areca Nut",
+      "Pepper", "Cardamom", "Turmeric", "Ginger", "Garlic", "Cloves", "Cinnamon", "Cumin", "Coriander"
+    ];
+
+    $(document).ready(function () {
+      $('table').on('click', '.edit-btn', function () {
+        const row = $(this).closest('tr');
+        const cells = row.find('.editable');
+
+        const productName = cells.eq(0).text().trim();
+        const quantity = cells.eq(1).text().trim();
+        const price = cells.eq(2).text().trim();
+        const date = cells.eq(3).text().trim();
+
+        // Replace Product with input
+        cells.eq(0).html(`<input type="text" class="form-control form-control-sm productSearch" value="${productName}">`);
+
+        // Replace Quantity with dropdown
+       const quantities = ["10 Gram", "50 Gram", "100 Gram", "500 Gram", "1 KG", "1 Quintal", "1 Ton"];
+
+let quantitySelect = `<select class="form-control form-control-sm quantitySelect">`;
+quantities.forEach(q => {
+  quantitySelect += `<option value="${q}" ${q === quantity ? "selected" : ""}>${q}</option>`;
+});
+quantitySelect += `</select>`;
+cells.eq(1).html(quantitySelect);
+
+
+        // Price & Date input
+        cells.eq(2).html(`<input type="text" class="form-control form-control-sm" value="${price}">`);
+        cells.eq(3).html(`<input type="date" class="form-control form-control-sm" value="${date}">`);
+
+        row.find('.edit-btn').addClass('d-none');
+        row.find('.save-btn').removeClass('d-none');
+      });
+
+      // Autocomplete logic (floating dropdown)
+      $(document).on('input focus', '.productSearch', function () {
+        const input = $(this);
+        const filter = input.val().toLowerCase();
+        const matches = products.filter(p => p.toLowerCase().includes(filter));
+        const resultsBox = $('#floatingResults');
+
+        if (!matches.length) return resultsBox.hide();
+
+        resultsBox.html('');
+        matches.forEach(item => {
+          resultsBox.append(`<div class="result-item">${item}</div>`);
+        });
+
+        const offset = input.offset();
+        resultsBox.css({
+          top: offset.top + input.outerHeight(),
+          left: offset.left,
+          width: input.outerWidth(),
+          display: 'block'
+        }).data('input', input);
+      });
+
+      // Select product
+      $(document).on('click', '.result-item', function () {
+        const selected = $(this).text();
+        const input = $('#floatingResults').data('input');
+        input.val(selected);
+        $('#floatingResults').hide();
+      });
+
+      // Save changes
+      $('table').on('click', '.save-btn', function () {
+        const row = $(this).closest('tr');
+        const id = row.data('id');
+        const product = row.find('.productSearch').val();
+        const quantity = row.find('.quantitySelect').val();
+        const price = row.find('input').eq(1).val();
+        const date = row.find('input').eq(2).val();
+
+        fetch(`/update_product/${id}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_name: product, quantity, price, date })
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const cells = row.find('.editable');
+            cells.eq(0).text(product);
+            cells.eq(1).text(quantity);
+            cells.eq(2).text(price);
+            cells.eq(3).text(date);
+            row.find('.edit-btn').removeClass('d-none');
+            row.find('.save-btn').addClass('d-none');
+          } else {
+            alert("Update failed");
+          }
+        });
+      });
+
+      // Hide dropdown if clicked outside
+      $(document).on('click', function (e) {
+        if (!$(e.target).closest('#floatingResults, .productSearch').length) {
+          $('#floatingResults').hide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

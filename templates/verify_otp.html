@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verify OTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      padding: 40px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .masked {
+      font-weight: 500;
+      margin-bottom: 20px;
+      color: #ddd;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-bottom: 20px;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transition: 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    input::placeholder {
+      color: #ffffff;
+      opacity: 1;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #ff758c, #ff7eb3);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .flash {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .flash.success {
+      background-color: #28a745;
+    }
+
+    .flash.error {
+      background-color: #dc3545;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+    }
+
+    #resendBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #timer {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Verify OTP</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <p class="masked">OTP sent to: XXXXXX{{ phone[-4:] }}</p>
+
+    <form action="{{ url_for('verify_otp') }}" method="POST">
+      <input type="hidden" name="phone" value="{{ phone }}">
+      <label for="otp">Enter OTP</label>
+      <input type="text" name="otp" id="otp" required placeholder="Enter 4-digit OTP">
+      <button type="submit">Verify</button>
+    </form>
+
+    <form action="{{ url_for('resend_otp') }}" method="POST">
+      <input type="hidden" name="phone" value="{{ phone }}">
+      <button type="submit" id="resendBtn" style="background: #4e54c8; margin-top: 15px;">Resend OTP</button>
+      <p id="timer"></p>
+    </form>
+  </div>
+
+  <script>
+    let countdown = 90;
+    const resendBtn = document.getElementById('resendBtn');
+    const timerDisplay = document.getElementById('timer');
+
+    resendBtn.disabled = true;
+
+    const timerInterval = setInterval(() => {
+      if (countdown > 0) {
+        timerDisplay.textContent = `You can resend OTP in ${countdown--}s`;
+      } else {
+        clearInterval(timerInterval);
+        timerDisplay.textContent = "";
+        resendBtn.disabled = false;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

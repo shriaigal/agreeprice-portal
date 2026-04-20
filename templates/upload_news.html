@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload News</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      scrollbar-width: thin;
+      scrollbar-color: #4caf50 #1a1a2e;
+    }
+
+    /* Scrollbar for Webkit (Chrome, Edge, Safari) */
+    *::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #4caf50;
+      border-radius: 10px;
+      border: 2px solid #1a1a2e;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0e0e1a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: #1a1a2e;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea,
+    button {
+      width: 100%;
+      margin-top: 0.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    textarea {
+      padding: 0.8rem;
+      background: #3a3a3a;
+      color: #fff;
+    }
+
+    textarea {
+      resize: none; /* Prevent extending the textarea */
+    }
+
+    button {
+      background: #4caf50;
+      color: white;
+      padding: 0.9rem;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #43a047;
+    }
+
+    .flash-message {
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+      text-align: center;
+      animation: fadeOut 0.5s ease-in-out 4.5s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.2rem;
+      }
+
+      input[type="text"],
+      textarea,
+      button {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload News</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash-message" id="flash-msg">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="/upload_news" method="POST">
+      <label for="title">News Title</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="content">News Content</label>
+      <textarea id="content" name="content" rows="6" required></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      const msg = document.getElementById('flash-msg');
+      if (msg) msg.style.display = 'none';
+    }, 5000);
+  </script>
+</body>
+</html>

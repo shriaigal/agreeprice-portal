@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Table</title>
+  <style>
+/* Base styles (already good) */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0 20px;
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #4CAF50;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 0 0 8px 8px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+header button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+main {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input[type="date"],
+select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th {
+  background: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+table tr:nth-child(even) {
+  background: #f2f2f2;
+}
+
+aside {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+}
+
+.hidden {
+  display: none;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px; width: 20px;
+  left: 3px; bottom: 3px;
+  background: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+body.dark {
+  background: #121212;
+  color: #eee;
+}
+
+body.dark main {
+  background: #1e1e1e;
+}
+
+body.dark header {
+  background: #333;
+}
+
+body.dark table th {
+  background: #333;
+}
+
+body.dark table tr:nth-child(even) {
+  background: #222;
+}
+
+body.dark aside {
+  background: #1e1e1e;
+  border-color: #555;
+}
+
+body.dark input[type="date"],
+body.dark select {
+  background: #333;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+/* Responsive: Medium screens - Tablets (768px and down) */
+@media (max-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .control-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .control-group label {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+
+  input[type="date"],
+  select {
+    width: 100%;
+  }
+
+  aside {
+    width: 220px;
+    top: 70px;
+    right: 15px;
+  }
+}
+input[type="date"] {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* Responsive: Small screens - Mobiles (480px and down) */
+@media (max-width: 480px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header h1 {
+    font-size: 1.1rem;
+  }
+
+  header button {
+    font-size: 1.3rem;
+  }
+
+  main {
+    padding: 15px;
+  }
+
+  table th,
+  table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .control-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  input[type="date"],
+  select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  aside {
+    width: 180px;
+    top: 60px;
+    right: 10px;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="title">Product Table</h1>
+    <button onclick="toggleSettings()">⚙️</button>
+  </header>
+
+  <main>
+    <div class="controls">
+      <div class="control-group">
+        <label id="selectDateLabel">Select Date:</label>
+        <input type="date" id="datePicker" onchange="loadProducts()">
+      </div>
+      <div class="control-group">
+        <label id="selectLocationLabel">Select Location:</label>
+        <select id="locationPicker" onchange="saveLocationAndLoadProducts()">
+        <option value="all" id="optionAll">All Locations</option>
+        <option value="Nittur" id="optionNittur">Nittur</option>
+        <option value="Sagara" id="optionSagara">Sagara</option>
+        <option value="Hosanagara" id="optionHosanagara">Hosanagara</option>
+        <option value="Thirthahalli" id="optionThirthahalli">Thirthahalli</option>
+        <option value="Mandya" id="optionMandya">Mandya</option>
+
+        </select>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th id="thProduct">Product</th>
+          <th id="thQuantity">Quantity</th>
+          <th id="thPrice">Price</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <aside id="settingsPanel" class="hidden">
+    <button onclick="toggleSettings()">✖</button>
+    <h2 id="settingsTitle">Settings</h2>
+    <!--<div id="profile"><p id="profileName">Name: User</p></div>-->
+    <div class="toggle-container">
+      <span id="themeLabel">Dark Theme</span>
+      <label class="switch">
+        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="toggle-container">
+      <span id="langLabel">ಕನ್ನಡ</span>
+      <label class="switch">
+        <input type="checkbox" id="langToggle" onchange="switchLanguage()">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </aside>
+
+  <script>
+   let currentLang = localStorage.getItem('lang') || 'en';
+
+const translations = {
+  Selectlocation: { en: "Select Location:", kn: "ಸ್ಥಳ ಆಯ್ಕೆಮಾಡಿ:" },
+  locationAll: { en: "All Locations", kn: "ಎಲ್ಲಾ ಸ್ಥಳಗಳು" },
+  Sagara: { en: "Sagara", kn: "ಸಾಗರ" },
+  Nittur: { en: "Nittur", kn: "ನಿಟ್ಟೂರು" },
+  Hosanagara: { en: "Hosanagara", kn: "ಹೊಸನಗರ" },
+  Thirthahalli: { en: "Thirthahalli", kn: "ತೀರ್ಥಹಳ್ಳಿ" },
+  Mandya: { en: "Mandya", kn: "ಮಂಡ್ಯ" },
+  noRecords: { en: "No records found", kn: "ದಾಖಲೆಗಳು ಕಂಡುಬಂದಿಲ್ಲ" },
+  productHeader: { en: "Product", kn: "ಉತ್ಪನ್ನ" },
+  quantityHeader: { en: "Quantity", kn: "ಪ್ರಮಾಣ" },
+  priceHeader: { en: "Price", kn: "ಬೆಲೆ" },
+  selectDate: { en: "Select Date:", kn: "ದಿನಾಂಕ ಆಯ್ಕೆಮಾಡಿ:" },
+  settingsTitle: { en: "Settings", kn: "ಸೆಟ್ಟಿಂಗ್‌ಗಳು" },
+  profileName: { en: "Name: User", kn: "ಹೆಸರು: ಬಳಕೆದಾರ" },
+  darkTheme: { en: "Dark Theme", kn: "ಡಾರ್ಕ್ ಥೀಮ್" }
+};
+
+const productNames = {
+  "Rice": { kn: "ಅಕ್ಕಿ", en: "Rice" },
+  "Wheat": { kn: "ಗೋಧಿ", en: "Wheat" },
+  "Maize (Corn)": { kn: "ಮೆಕ್ಕೆ ಜೋಳ (ಜೋಳ)", en: "Maize (Corn)" },
+  "Barley": { kn: "ಬಾರ್ಲಿ", en: "Barley" },
+  "Millet (Bajra, Ragi, Jowar)": { kn: "ಸಿರಿಧಾನ್ಯ (ಬಾಜ್ರಾ, ರಾಗಿ, ಜೋಳ)", en: "Millet (Bajra, Ragi, Jowar)" },
+  "Chickpeas (Chana)": { kn: "ಕಡಲೆಕಾಯಿ", en: "Chickpeas (Chana)" },
+  "Green Gram (Moong)": { kn: "ಹೆಸರುಬೇಳೆ", en: "Green Gram (Moong)" },
+  "Black Gram (Urad)": { kn: "ಉದ್ದಿನ ಬೇಳೆ", en: "Black Gram (Urad)" },
+  "Lentils (Masoor)": { kn: "ಮಸೂರ ಬೇಳೆ (ಬೇಳೆಕಾಳು)", en: "Lentils (Masoor)" },
+  "Pigeon Pea (Toor/Arhar)": { kn: "ತೊಗರಿ ಬೇಳೆ", en: "Pigeon Pea (Toor/Arhar)" },
+  "Potato": { kn: "ಆಲೂಗಡ್ಡೆ", en: "Potato" },
+  "Onion": { kn: "ಈರಳ್ಳಿ", en: "Onion" },
+  "Tomato": { kn: "ಟೊಮೇಟೋ", en: "Tomato" },
+  "Brinjal (Eggplant)": { kn: "ಬದನೆಕಾಯಿ", en: "Brinjal (Eggplant)" },
+  "Spinach": { kn: "ಪಾಲಕ್ ಸೊಪ್ಪು", en: "Spinach" },
+  "Cauliflower": { kn: "ಹೂಕೋಸು", en: "Cauliflower" },
+  "Cabbage": { kn: "ಎಲೆಕೋಸು", en: "Cabbage" },
+  "Okra (Ladyfinger/Bhindi)": { kn: "ಬೆಂಡೆಕಾಯಿ", en: "Okra (ಬೆಂಡೆಕಾಯಿ)" },
+  "Mango": { kn: "ಮಾವು", en: "Mango" },
+  "Banana": { kn: "ಬಾಳೆಹಣ್ಣು", en: "Banana" },
+  "Apple": { kn: "ಸೇಬು", en: "Apple" },
+  "Grapes": { kn: "ದ್ರಾಕ್ಷಿ", en: "Grapes" },
+  "Orange": { kn: "ಕಿತ್ತಳೆ", en: "Orange" },
+  "Papaya": { kn: "ಪಪ್ಪಾಯಿ", en: "Papaya" },
+  "Guava": { kn: "ಪೇರಲೆ", en: "Guava" },
+  "Pomegranate": { kn: "ದಾಳಿಂಬೆ", en: "Pomegranate" },
+  "Groundnut (Peanut)": { kn: "ನೆಲಗಡಲೆ", en: "Groundnut (Peanut)" },
+  "Mustard": { kn: "ಸಾಸಿವೆ", en: "Mustard" },
+  "Soybean": { kn: "ಸೋಯಾಬೀನ್", en: "Soybean" },
+  "Sunflower": { kn: "ಸೂರ್ಯಕಾಂತಿ", en: "Sunflower" },
+  "Cotton": { kn: "ಹತ್ತಿ", en: "Cotton" },
+  "Sugarcane": { kn: "ಕಬ್ಬು", en: "Sugarcane" },
+  "Tea": { kn: "ಟೀ", en: "Tea" },
+  "Coffee": { kn: "ಕಾಫಿ", en: "Coffee" },
+  "Areca Nut (Betel Nut)": { kn: "ಅಡಿಕೆ", en: "Areca Nut (Betel Nut)" },
+  "Pepper": { kn: "ಮೆಣಸು", en: "Pepper" },
+  "Cardamom": { kn: "ಎಲಕ್ಕಿ", en: "Cardamom" },
+  "Black Pepper": { kn: "ಕಪ್ಪು ಮೆಣಸು", en: "Black Pepper" },
+  "Turmeric": { kn: "ಅರಿಶಿನ", en: "Turmeric" },
+  "Ginger": { kn: "ಶುಂಠಿ", en: "Ginger" },
+  "Garlic": { kn: "ಬೆಳ್ಳುಳ್ಳಿ", en: "Garlic" },
+  "Cloves": { kn: "ಲವಂಗ", en: "Cloves" },
+  "Cinnamon": { kn: "ದಾಲ್ಚಿನ್ನಿ", en: "Cinnamon" },
+  "Cumin": { kn: "ಜೀರಿಗೆ", en: "Cumin" },
+  "Coriander": { kn: "ಕೊತ್ತಂಬರಿ", en: "Coriander" }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dateInput = document.getElementById('datePicker');
+  if (!dateInput.value) {
+    dateInput.valueAsDate = new Date();
+  }
+
+  const savedLocation = localStorage.getItem('location');
+  if (savedLocation) {
+    document.getElementById('locationPicker').value = savedLocation;
+  }
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('themeToggle').checked = true;
+  }
+
+if (currentLang === 'kn') {
+  document.getElementById('langToggle').checked = true;
+}
+switchLanguage(); // Always run it to sync the page
+
+
+  loadProducts();
+});
+
+function toggleSettings() {
+  document.getElementById('settingsPanel').classList.toggle('hidden');
+}
+
+function toggleTheme() {
+  const isDark = document.getElementById('themeToggle').checked;
+  document.body.classList.toggle('dark', isDark);
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+}
+
+function switchLanguage() {
+  const isKn = document.getElementById('langToggle').checked;
+  currentLang = isKn ? 'kn' : 'en';
+  localStorage.setItem('lang', currentLang);
+
+  document.getElementById('title').innerText = currentLang === 'kn' ? "ಉತ್ಪನ್ನ ಪಟ್ಟಿಕೆ" : "Product Table";
+  document.getElementById('selectDateLabel').innerText = translations.selectDate[currentLang];
+  document.getElementById('selectLocationLabel').innerText = translations.Selectlocation[currentLang];
+  document.getElementById('optionAll').innerText = translations.locationAll[currentLang];
+  document.getElementById('optionSagara').innerText = translations.Sagara[currentLang];
+  document.getElementById('optionNittur').innerText = translations.Nittur[currentLang];
+  document.getElementById('optionHosanagara').innerText = translations.Hosanagara[currentLang];
+  document.getElementById('optionThirthahalli').innerText = translations.Thirthahalli[currentLang];
+  document.getElementById('optionMandya').innerText = translations.Mandya[currentLang];
+  document.getElementById('thProduct').innerText = translations.productHeader[currentLang];
+  document.getElementById('thQuantity').innerText = translations.quantityHeader[currentLang];
+  document.getElementById('thPrice').innerText = translations.priceHeader[currentLang];
+  document.getElementById('settingsTitle').innerText = translations.settingsTitle[currentLang];
+  // Only set profileName if your HTML actually has it visible
+  // document.getElementById('profileName').innerText = translations.profileName[currentLang];
+  document.getElementById('themeLabel').innerText = translations.darkTheme[currentLang];
+  document.getElementById('langLabel').innerText = currentLang === 'kn' ? 'ENG' : 'ಕನ್ನಡ';
+
+  loadProducts();
+}
+
+
+function saveLocationAndLoadProducts() {
+  const selectedLocation = document.getElementById('locationPicker').value;
+  localStorage.setItem('location', selectedLocation);
+  loadProducts();
+}
+
+function loadProducts() {
+  const date = document.getElementById('datePicker').value;
+  const location = document.getElementById('locationPicker').value;
+
+  fetch('/get_products', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `date=${encodeURIComponent(date)}&location=${encodeURIComponent(location)}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    const tbody = document.querySelector('tbody');
+    tbody.innerHTML = '';
+
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3">${translations.noRecords[currentLang]}</td></tr>`;
+    } else {
+      data.forEach(row => {
+        const product = productNames[row[1]] ? productNames[row[1]][currentLang] : row[1];
+        tbody.innerHTML += `<tr>
+          <td>${product}</td>
+          <td>${row[2]}</td>
+          <td>₹ ${row[3]}</td>
+        </tr>`;
+      });
+    }
+  })
+  .catch(error => console.error("Error fetching products:", error));
+}
+
+  </script>
+</body>
+</html>

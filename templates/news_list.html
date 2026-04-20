@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Latest News</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: sans-serif;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #news-container {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .news-item {
+      background: #1e1e1e;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid #4CAF50;
+      border-radius: 6px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      box-sizing: border-box;
+    }
+
+    .news-item h3 {
+      margin-top: 0;
+      color: #4CAF50;
+    }
+
+    .news-item small {
+      color: #bbb;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* 🔽 Responsive Adjustments */
+    @media screen and (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .news-item {
+        font-size: 0.95rem;
+        padding: 0.8rem;
+      }
+
+      .news-item h3 {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .news-item {
+        font-size: 0.9rem;
+      }
+
+      .news-item h3 {
+        font-size: 1rem;
+      }
+
+      .news-item p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>📰 Latest News</h1>
+
+  <div id="news-container">
+    <!-- News will be loaded here via JavaScript -->
+  </div>
+
+  <script>
+    function loadNews() {
+      fetch('/api/news')
+        .then(response => response.json())
+        .then(data => {
+          const container = document.getElementById('news-container');
+          container.innerHTML = '';
+          if (data.length === 0) {
+            container.innerHTML = '<p>No news available.</p>';
+            return;
+          }
+          data.forEach(item => {
+            const newsDiv = document.createElement('div');
+            newsDiv.className = 'news-item';
+            newsDiv.innerHTML = `
+              <h3>${item.title}</h3>
+              <small>Posted on ${item.date}</small>
+              <p>${item.content}</p>
+            `;
+            container.appendChild(newsDiv);
+          });
+        });
+    }
+
+    loadNews();             // Initial load
+    setInterval(loadNews, 10000); // Refresh every 10 seconds
+  </script>
+</body>
+</html>
